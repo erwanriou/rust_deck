@@ -1,3 +1,5 @@
+use rand::{rng, seq::SliceRandom};
+
 #[derive(Debug)]
 
 // STRUCTURE
@@ -27,12 +29,26 @@ impl Deck {
         Self { cards }
     }
 
-    // METHOD
-    fn suffle(&self) {}
+    // METHODS
+    fn suffle(&mut self) {
+        let mut rng = rng();
+        self.cards.shuffle(&mut rng);
+    }
+
+    fn deal(&mut self, num_cards: usize) -> Vec<String> {
+        self.cards.split_off(self.cards.len() - num_cards)
+    }
 }
 
 fn main() {
-    let deck = Deck::new();
+    // CALLS
+    let mut deck = Deck::new();
     deck.suffle();
+
+    // TODO ADD ERROR HANDLING
+    let cards = deck.deal(3);
+
+    // PRINTINGS
+    println!("Here is your hand: {:#?}", cards);
     println!("Here is your deck: {:#?}", deck);
 }
